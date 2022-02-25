@@ -15,6 +15,18 @@ exports.runTest = async function (testFile) {
           }
           return true;
         },
+        toBeGreaterThanOrEqual: (expected) => { //test. this would be a frontend validation...
+          if (received !== expected) {
+            throw new Error(`Screenames must be longer than ${expected} characters. received ${received} characters.`);
+          }
+          return true;
+        },
+        toContain: (expected) => { 
+          if (received.indexOf(expected) > -1) {
+            throw new Error("Forbidden character!");
+          }
+          return true;
+        },
       });
       eval(code);
       testResult.success = true;
