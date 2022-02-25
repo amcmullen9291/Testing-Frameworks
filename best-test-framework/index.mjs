@@ -1,6 +1,6 @@
 import JestHasteMap from 'jest-haste-map';
 import { cpus } from 'os';
-import { dirname, join } from 'path';
+import { dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { Worker } from 'jest-worker';
 import fs from 'fs';
@@ -31,22 +31,22 @@ const worker = new Worker(join(root, 'worker.js'), {
     enableWorkerThreads: true,
   });
 
-await Promise.all(
-    Array.from(testFiles).map(async (testFile) => {
-      let testResult = await worker.runTest(testFile);
-      const code = await fs.promises.readFile(testFile, 'utf8');
-      console.log(testResult.success = true ? console.log( chalk.bgMagentaBright.gray.inverse("Success!")) : console.log( chalk.purple.inverse("Failure!")));
-      console.log( "code in file: " + code);
-    }),
-  );
+// await Promise.all(
+//     Array.from(testFiles).map(async (testFile) => {
+//       let testResult = await worker.runTest(testFile);
+//       const code = await fs.promises.readFile(testFile, 'utf8');
+//       console.log(testResult.success = true ? console.log( chalk.bgMagentaBright.gray.inverse("Success!")) : console.log( chalk.red.inverse("Failure!")));
+//       console.log( "code in file: " + chalk.dim(code));
+//     }),
+//   );
 
-  // ...test
-//   for await (const testFile of testFiles){
-//       const { success, errorMessage } = await worker.runTest(testFile);
-//       console.log("Take 2:", await worker.runTest(testFile))
-//   } 
-  // processes are running at same time. they get reported back as they finish
-  // no set order. same data returned as prev console.log
-   // ...end test
+  for await (const testFile of testFiles){
+      const { success, errorMessage } = await worker.runTest(testFile);
+      const status = true ? chalk.green.inverse("Success!") : chalk.red.inverse("Failure!");
+
+      console.log (status, '\n' + chalk.dim(relative(root, testFile)));
+    } 
+//   processes are running at same time. they get reported back as they finish
+//   no set order. same data returned as prev console.log
 
   worker.end(); //closes thread/ process
