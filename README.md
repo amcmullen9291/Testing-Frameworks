@@ -1,3 +1,3 @@
 # node-testing
 
-Attempting to build a testing framework from scratch to understand how Jest works
+A testing framework built from scratch to understand how Jest works
