@@ -31,22 +31,24 @@ const worker = new Worker(join(root, 'worker.js'), {
     enableWorkerThreads: true,
   });
 
-// await Promise.all(
-//     Array.from(testFiles).map(async (testFile) => {
-//       let testResult = await worker.runTest(testFile);
-//       const code = await fs.promises.readFile(testFile, 'utf8');
-//       console.log(testResult.success = true ? console.log( chalk.bgMagentaBright.gray.inverse("Success!")) : console.log( chalk.red.inverse("Failure!")));
-//       console.log( "code in file: " + chalk.dim(code));
-//     }),
-//   );
+await Promise.all(
+    Array.from(testFiles).map(async (testFile) => {
+      let { status, errorMessage } = await worker.runTest(testFile);
+      const code = await fs.promises.readFile(testFile, 'utf8');
+       status = true ? chalk.green("Success!")  : chalk.white.bgRedBright.inverse("Failure!");
+      console.log(status);
+      if(errorMessage){console.log(chalk.bgRedBright.black("Warning: ")+ ' ' + errorMessage);}
+      console.log( "code in file " + chalk.dim(relative(root, testFile)) + ': ' + code);
+    }),
+  );
 
-  for await (const testFile of testFiles){
-      const { success, errorMessage } = await worker.runTest(testFile);
-      const status = true ? chalk.green.inverse("Success!") : chalk.red.inverse("Failure!");
-
-      console.log (status, '\n' + chalk.dim(relative(root, testFile)));
-    } 
-//   processes are running at same time. they get reported back as they finish
-//   no set order. same data returned as prev console.log
+ // ...test
+//   for await (const testFile of testFiles){
+//       const { success, errorMessage } = await worker.runTest(testFile);
+//       console.log("Take 2:", await worker.runTest(testFile))
+//   } 
+  // processes are running at same time. they get reported back as they finish
+  // no set order. same data returned as prev console.log
+   // ...end test
 
   worker.end(); //closes thread/ process
