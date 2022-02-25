@@ -19,8 +19,9 @@ const hasteMap = new JestHasteMap.default({
 const {hasteFS} = await hasteMap.build();
 
 //...test
-// .log("exists?", hasteFS.exists('tests/01.test.js')); //tool to locate files
-//let testFiles1 = hasteFS.matchFilesWithGlob(['**/01.test.js']);
+console.log("exists?", hasteFS.exists('tests/01.test.js')); //tool to locate files
+let testFiles1 = hasteFS.matchFilesWithGlob(['**/01.test.js']);
+console.log(testFiles1);
 //...end test 
 
 const testFiles = hasteFS.matchFilesWithGlob(['**/*.test.js']);
