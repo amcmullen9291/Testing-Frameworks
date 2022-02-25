@@ -31,24 +31,22 @@ const worker = new Worker(join(root, 'worker.js'), {
     enableWorkerThreads: true,
   });
 
-await Promise.all(
+  await Promise.all(
     Array.from(testFiles).map(async (testFile) => {
-      let { status, errorMessage } = await worker.runTest(testFile);
+      let { success, errorMessage } = await worker.runTest(testFile);
       const code = await fs.promises.readFile(testFile, 'utf8');
-       status = true ? chalk.green("Success!")  : chalk.white.bgRedBright.inverse("Failure!");
-      console.log(status);
+    //   console.log("init pass: ", status);
+       success == true ? console.log(chalk.green("Success!"))  : console.log(chalk.white.bgRedBright.inverse("Fail!"));
       if(errorMessage){console.log(chalk.bgRedBright.black("Warning: ")+ ' ' + errorMessage);}
       console.log( "code in file " + chalk.dim(relative(root, testFile)) + ': ' + code);
     }),
   );
 
- // ...test
-//   for await (const testFile of testFiles){
-//       const { success, errorMessage } = await worker.runTest(testFile);
-//       console.log("Take 2:", await worker.runTest(testFile))
-//   } 
-  // processes are running at same time. they get reported back as they finish
-  // no set order. same data returned as prev console.log
-   // ...end test
+  for await (const testFile of testFiles){
+      const { success, errorMessage } = await worker.runTest(testFile);
+      console.log(await worker.runTest(testFile))
+  } 
+//   processes are running at same time. they get reported back as they finish
+//   no set order. same data returned as prev console.log
 
   worker.end(); //closes thread/ process
