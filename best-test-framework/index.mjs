@@ -37,8 +37,8 @@ const worker = new Worker(join(root, 'worker.js'), {
       const code = await fs.promises.readFile(testFile, 'utf8');
     //   console.log("init pass: ", status);
        success == true ? console.log(chalk.green("Success!"))  : console.log(chalk.white.bgRedBright.inverse("Fail!"));
-      if(errorMessage){console.log(chalk.bgRedBright.black("Warning: ")+ ' ' + errorMessage);}
-      console.log( "code in file " + chalk.dim(relative(root, testFile)) + ': ' + code);
+      if(errorMessage){console.log(chalk.bgRedBright.black("Error: ")+ ' ' + errorMessage);}
+    //   console.log( "code in file " + chalk.dim(relative(root, testFile)) + ': ' + code);
     }),
   );
 
