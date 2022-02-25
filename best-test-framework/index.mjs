@@ -4,6 +4,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { Worker } from 'jest-worker';
 import fs from 'fs';
+import chalk from 'chalk';
 
 const root = dirname(fileURLToPath(import.meta.url));
 
@@ -32,9 +33,10 @@ const worker = new Worker(join(root, 'worker.js'), {
 
 await Promise.all(
     Array.from(testFiles).map(async (testFile) => {
-      const testResult = await worker.runTest(testFile);
+      let testResult = await worker.runTest(testFile);
       const code = await fs.promises.readFile(testFile, 'utf8');
-      console.log(testResult, ':\n' + "code in file: " + code);
+      console.log(testResult.success = true ? console.log( chalk.bgMagentaBright.gray.inverse("Success!")) : console.log( chalk.purple.inverse("Failure!")));
+      console.log( "code in file: " + code);
     }),
   );
 
