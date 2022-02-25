@@ -46,4 +46,4 @@ await Promise.all(
   // no set order. same data returned as prev console.log
    // ...end test
 
-  worker.end();
+  worker.end(); //closes thread/ process
