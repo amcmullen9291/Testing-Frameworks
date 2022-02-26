@@ -20,9 +20,9 @@ const hasteMap = new JestHasteMap.default({
 const {hasteFS} = await hasteMap.build();
 
 //...test
-console.log("exists?", hasteFS.exists('tests/01.test.js')); //tool to locate files
-let testFiles1 = hasteFS.matchFilesWithGlob(['**/01.test.js']);
-console.log(testFiles1);
+        // console.log("exists?", hasteFS.exists('tests/01.test.js')); //tool to locate files
+        // let testFiles1 = hasteFS.matchFilesWithGlob(['**/01.test.js']);
+        // console.log(testFiles1);
 //...end test 
 
 const testFiles = hasteFS.matchFilesWithGlob(['**/*.test.js']);
@@ -35,10 +35,8 @@ const worker = new Worker(join(root, 'worker.js'), {
     Array.from(testFiles).map(async (testFile) => {
       let { success, errorMessage } = await worker.runTest(testFile);
       const code = await fs.promises.readFile(testFile, 'utf8');
-    //   console.log("init pass: ", status);
-       success == true ? console.log(chalk.green("Success!"))  : console.log(chalk.white.bgRedBright.inverse("Fail!"));
-      if(errorMessage){console.log(chalk.bgRedBright.black("Error: ")+ ' ' + errorMessage);}
-    //   console.log( "code in file " + chalk.dim(relative(root, testFile)) + ': ' + code);
+       success == true ? console.log(chalk.green("Success!"))  : console.log(chalk.bgRedBright.inverse("Fail!"));
+      if(errorMessage){console.log(chalk.bgRedBright.bold("Error: ")+ ' ' + errorMessage + '\n');}
     }),
   );
 
