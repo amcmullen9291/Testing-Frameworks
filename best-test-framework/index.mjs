@@ -40,10 +40,11 @@ const worker = new Worker(join(root, 'worker.js'), {
     }),
   );
 
-  for await (const testFile of testFiles){
-      const { success, errorMessage } = await worker.runTest(testFile);
-      console.log(await worker.runTest(testFile))
-  } 
+  //...for notes
+        // for await (const testFile of testFiles){
+        //     const { success, errorMessage } = await worker.runTest(testFile);
+        //     console.log(await worker.runTest(testFile))
+        // } 
 //   processes are running at same time. they get reported back as they finish
 //   no set order. same data returned as prev console.log
 
