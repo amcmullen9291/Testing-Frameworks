@@ -3,3 +3,5 @@ Jest itself uses a package called `jest-haste-map` to analyze projects and retri
 A glob is a string of literal and/or wildcard characters used to match filepaths (absolute file paths).
 
 To being program run 'node index.mjs' from the command line
+
+The Expect depdendency can take the place of manually inserting assertions along with the built in .toThrow function to throw errors.

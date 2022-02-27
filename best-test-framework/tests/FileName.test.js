@@ -1,8 +1,12 @@
 const NameFile = require('./FileName'); 
-const forbiddenChar = ["*", "!", "%"];
-forbiddenChar.map(char => {
-expect(NameFile("Ant*hony")).toContain(char);
-})
+
+expect(NameFile("Anth?ony")).not.toContain("*");
+expect(NameFile("Anth?ony")).not.toContain("/");
+expect(NameFile("Anth/ony")).not.toContain("/");
+expect(NameFile("Anth?ony")).not.toContain("?");
+expect(NameFile("Anth?ony")).not.toContain("$");
+
+//you run multiple tests in a file but it will stop after the first fail
 
 
 //@ this afternoon try array list of forbidden characters
