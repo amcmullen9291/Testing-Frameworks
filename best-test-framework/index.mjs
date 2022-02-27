@@ -35,7 +35,7 @@ const worker = new Worker(join(root, 'worker.js'), {
     Array.from(testFiles).map(async (testFile) => {
       let { success, errorMessage } = await worker.runTest(testFile);
       const code = await fs.promises.readFile(testFile, 'utf8');
-       success == true ? console.log(chalk.green("Success!"))  : console.log(chalk.bgRedBright.inverse("Fail!"));
+       success == true ? console.log(chalk.green("Success!" + '\n'))  : console.log(chalk.bgRedBright.inverse("Fail!"));
       if(errorMessage){console.log(chalk.bgRedBright.bold("Error: ")+ ' ' + errorMessage + '\n');}
     }),
   );
