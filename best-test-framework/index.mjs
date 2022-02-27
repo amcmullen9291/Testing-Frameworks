@@ -35,15 +35,29 @@ const worker = new Worker(join(root, 'worker.js'), {
     enableWorkerThreads: true,
   });
 
-  await Promise.all(
-    Array.from(testFiles).map(async (testFile) => {
-      let { success, errorMessage } = await worker.runTest(testFile);
-      const code = await fs.promises.readFile(testFile, 'utf8');
-       success == true ? console.log(chalk.green("Success!" + '\n'))  : console.log(chalk.bgRedBright.inverse("Fail!"));
-      if(errorMessage){console.log(chalk.bgRedBright.bold("Error: ")+ ' ' + errorMessage + '\n');}
-    }),
+let hasFailed = false;
+await Promise.all(
+  Array.from(testFiles).map(async (testFile) => {
+    const {success, errorMessage} = await worker.runTest(testFile);
+    const status = success
+      ? chalk.green.inverse.bold(' PASS ')
+      : chalk.red.inverse.bold(' FAIL ');
+
+    console.log(status + ' ' + chalk.dim(relative(root, testFile)));
+    if (!success) {
+      hasFailed = true;
+      console.log('  ' + errorMessage);
+    }
+  }),
+);
+worker.end();
+if (hasFailed) {
+  console.log(
+    '\n' + chalk.red.bold('Test run failed, please fix all the failing tests.'),
   );
 
+  process.exitCode = 1;
+}
   //...for notes
         // for await (const testFile of testFiles){
         //     const { success, errorMessage } = await worker.runTest(testFile);
@@ -52,4 +66,4 @@ const worker = new Worker(join(root, 'worker.js'), {
 //   processes are running at same time. they get reported back as they finish
 //   no set order. same data returned as prev console.log
 
-  worker.end(); //closes thread/ process
+//   worker.end(); //closes thread/ process (processes already ended with exitCode = 1);

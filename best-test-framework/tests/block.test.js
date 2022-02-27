@@ -1,15 +1,50 @@
-const expect = require('expect');
+
+const { beforeEach, describe } = require('jest-circus');
+ 
+const { inventory, getInventory, addToInventory } = require("./block");
 
 
-describe('equality test', () => {
-    it('doesnt works', () => {
-        expect(1).toBe(1);
-        expect(3).toBe(4);
-    });
-});
+beforeEach(() => inventory.clear()); 
+ 
 
-describe('equality test will fail', () => {
-    it('works', () => {
-        expect(1).toBe(9);
-    });
-});
+describe("returned value", () => {
+    let result = addToInventory("cheesecake", 2);
+    expect(typeof result).toBe("number");
+  });
+
+  describe("returned value", () => {
+    let result = addToInventory("cheesecake", "not a number");
+    expect(typeof result).toBe("string");
+  });
+
+  describe("returned value", () => {
+    let result = addToInventory("cheesecake", true);
+    expect(typeof result).toBe("boolean");
+  });
+
+  describe("returned value", () => {
+    const result = addToInventory("cheesecake", 9);
+    expect(result).toBeGreaterThan(3); 
+  });
+   
+  
+ describe("array contents", () => {
+   inventory
+     .set("cheesecake", 1)
+     .set("macarroon", 3)
+     .set("croissant", 3)
+     .set("eclaire", 7)
+   const result = getInventory();
+  
+   expect(result).toEqual({ 
+     food1: 1,
+     food2: 3,
+     food3: 3,
+     food4: 7,
+   });
+ });
+
+   
+
+ //your testing to see if the .save() funcitons save data/ creates a new Class instance
+ //@do it with inventory.length() just reset length aftereach()?
