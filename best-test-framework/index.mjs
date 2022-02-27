@@ -25,7 +25,11 @@ const {hasteFS} = await hasteMap.build();
         // console.log(testFiles1);
 //...end test 
 
-const testFiles = hasteFS.matchFilesWithGlob(['**/*.test.js']);
+// const testFiles = hasteFS.matchFilesWithGlob(['**/*.test.js']);
+
+const testFiles = hasteFS.matchFilesWithGlob([
+    process.argv[2] ? `**/${process.argv[2]}*` : '**/*.test.js',
+  ]);
 
 const worker = new Worker(join(root, 'worker.js'), {
     enableWorkerThreads: true,

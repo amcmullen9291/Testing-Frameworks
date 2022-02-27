@@ -1,4 +1,3 @@
-// worker.js
 const fs = require('fs');
 const expect = require('expect');
 const mock = require('jest-mock');
