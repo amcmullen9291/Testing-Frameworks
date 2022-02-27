@@ -1,11 +1,15 @@
+const expect = require('expect');
+
+
 describe('equality test', () => {
-    it('works', () => {
-        except(1).toBe(1);
+    it('doesnt works', () => {
+        expect(1).toBe(1);
+        expect(3).toBe(4);
     });
 });
 
-describe('equality test fail', () => {
-    it('doesnt works', () => {
-        except(1).toBe(15);
+describe('equality test will fail', () => {
+    it('works', () => {
+        expect(1).toBe(9);
     });
 });

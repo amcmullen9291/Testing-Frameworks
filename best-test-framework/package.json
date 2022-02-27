@@ -6,6 +6,7 @@
   "dependencies": {
     "chalk": "^5.0.0",
     "expect": "^27.5.1",
+    "jest-circus": "^27.5.1",
     "jest-haste-map": "^27.5.1",
     "jest-mock": "^27.5.1",
     "jest-worker": "^27.5.1"
