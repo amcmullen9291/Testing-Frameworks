@@ -37,10 +37,11 @@ describe("returned value", () => {
    const result = getInventory();
   
    expect(result).toEqual({ 
-     food1: 1,
+     "eclaire": 7,
      food2: 3,
      food3: 3,
      food4: 7,
+     "macarroon": 3
    });
  });
 
@@ -48,3 +49,5 @@ describe("returned value", () => {
 
  //your testing to see if the .save() funcitons save data/ creates a new Class instance
  //@do it with inventory.length() just reset length aftereach()?
+
+ //the reason one test per file is the test stop when it reaches a fail.

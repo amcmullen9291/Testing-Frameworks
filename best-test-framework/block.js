@@ -1,6 +1,5 @@
 let inventory = new Map();
 let addToInventory = (item, n) => {
-    // if(typeof n !== "number") throw new Error("quantity must be a number");
 
     let currentQuantity = inventory.get(item) || 0;
     let newQuantity = currentQuantity = n;

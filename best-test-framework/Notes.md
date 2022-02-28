@@ -5,3 +5,7 @@ A glob is a string of literal and/or wildcard characters used to match filepaths
 To being program run 'node index.mjs' from the command line
 
 The Expect depdendency can take the place of manually inserting assertions along with the built in .toThrow function to throw errors.
+
+use Jest-circus for describe blocks.
+
+note: ONE TEST PER FILE!
